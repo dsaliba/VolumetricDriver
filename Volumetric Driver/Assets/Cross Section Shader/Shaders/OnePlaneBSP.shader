@@ -7,6 +7,7 @@
 		_Metallic("Metallic", Range(0,1)) = 0.0
 		_PlaneNormal("PlaneNormal",Vector) = (0,1,0,0)
 		_PlanePosition("PlanePosition",Vector) = (0,0,0,1)
+		_BottomPlanePosition("BottomPlanePosition",Vector) = (0,-1,0,1)
 		_StencilMask("Stencil Mask", Range(0, 255)) = 255
 	}
 	SubShader {
@@ -43,10 +44,14 @@
 		fixed4 _CrossColor;
 		fixed3 _PlaneNormal;
 		fixed3 _PlanePosition;
+		fixed3 _BottomPlanePosition;
 		bool checkVisability(fixed3 worldPos)
 		{
 			float dotProd1 = dot(worldPos - _PlanePosition, _PlaneNormal);
-			return dotProd1 > 0  ;
+
+			float dotProd2 = dot(worldPos - _BottomPlanePosition, _PlaneNormal);
+			
+			return dotProd1 > 0 || dotProd2 < 0;
 		}
 		void surf(Input IN, inout SurfaceOutputStandard o) {
 			if (checkVisability(IN.worldPos))discard;
@@ -73,10 +78,13 @@
 		fixed4 _CrossColor;
 		fixed3 _PlaneNormal;
 		fixed3 _PlanePosition;
+		fixed3 _BottomPlanePosition;
 		bool checkVisability(fixed3 worldPos)
 		{
 			float dotProd1 = dot(worldPos - _PlanePosition, _PlaneNormal);
-			return dotProd1 >0 ;
+			float dotProd2 = dot(worldPos - _BottomPlanePosition, _PlaneNormal);
+			
+			return dotProd1 > 0 || dotProd2 < 0;
 		}
 		fixed4 LightingNoLighting(SurfaceOutput s, fixed3 lightDir, fixed atten)
 		{
