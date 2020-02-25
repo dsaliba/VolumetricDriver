@@ -7,8 +7,8 @@
 		_Metallic("Metallic", Range(0,1)) = 0.0
 		_PlaneNormal("PlaneNormal",Vector) = (0,1,0,0)
 		_PlanePosition("PlanePosition",Vector) = (0,0,0,1)
-		_BottomPlanePosition("BottomPlanePosition",Vector) = (0,-1,0,1)
 		_StencilMask("Stencil Mask", Range(0, 255)) = 255
+		_SliceWidth("Slice Width", Range(0, 1)) = 0.5
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -44,12 +44,11 @@
 		fixed4 _CrossColor;
 		fixed3 _PlaneNormal;
 		fixed3 _PlanePosition;
-		fixed3 _BottomPlanePosition;
+		float _SliceWidth;
 		bool checkVisability(fixed3 worldPos)
 		{
 			float dotProd1 = dot(worldPos - _PlanePosition, _PlaneNormal);
-
-			float dotProd2 = dot(worldPos - _BottomPlanePosition, _PlaneNormal);
+            float dotProd2 = dot(worldPos - (_PlanePosition - fixed3 (0, _SliceWidth, 0)), _PlaneNormal);
 			
 			return dotProd1 > 0 || dotProd2 < 0;
 		}
@@ -78,11 +77,11 @@
 		fixed4 _CrossColor;
 		fixed3 _PlaneNormal;
 		fixed3 _PlanePosition;
-		fixed3 _BottomPlanePosition;
+		float _SliceWidth;
 		bool checkVisability(fixed3 worldPos)
 		{
 			float dotProd1 = dot(worldPos - _PlanePosition, _PlaneNormal);
-			float dotProd2 = dot(worldPos - _BottomPlanePosition, _PlaneNormal);
+			float dotProd2 = dot(worldPos - (_PlanePosition - fixed3 (0, _SliceWidth, 0)), _PlaneNormal);
 			
 			return dotProd1 > 0 || dotProd2 < 0;
 		}
