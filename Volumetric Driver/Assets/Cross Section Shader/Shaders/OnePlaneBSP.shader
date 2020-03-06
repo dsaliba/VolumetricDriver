@@ -23,12 +23,16 @@
 			PassFront Zero
 		}
 		Cull Back
+
+		
+			
+		
 			CGPROGRAM
 			// Physically based Standard lighting model, and enable shadows on all light types
-#pragma surface surf Standard fullforwardshadows
+			#pragma surface surf Standard fullforwardshadows
 
 			// Use shader model 3.0 target, to get nicer looking lighting
-#pragma target 3.0
+	#pragma target 3.0
 
 			sampler2D _MainTex;
 
@@ -47,6 +51,7 @@
 		float _SliceWidth;
 		bool checkVisability(fixed3 worldPos)
 		{
+			
 			float dotProd1 = dot(worldPos - _PlanePosition, _PlaneNormal);
             float dotProd2 = dot(worldPos - (_PlanePosition - fixed3 (0, _SliceWidth, 0)), _PlaneNormal);
 			
@@ -101,6 +106,62 @@
 		}
 			ENDCG
 		
+		
+		// Pass{
+        //         CGPROGRAM
+ 
+        //         #pragma vertex vert
+        //         #pragma fragment frag
+        //         #include "UnityCG.cginc"
+ 
+        //         struct v2f {
+        //             float4 pos : SV_POSITION;
+		// 			fixed4 color : COLOR;
+        //         };
+ 
+        //         fixed4 _Color;
+
+		// 		fixed3 _PlaneNormal;
+		// 		fixed3 _PlanePosition;
+		// 		float _SliceWidth;
+		// 		bool checkVisability(fixed3 worldPos)
+		// 		{
+		// 			float dotProd1 = dot(worldPos - _PlanePosition, _PlaneNormal);
+		// 			float dotProd2 = dot(worldPos - (_PlanePosition - fixed3 (0, _SliceWidth, 0)), _PlaneNormal);
+			
+		// 			return dotProd1 > 0 || dotProd2 < 0;
+		// 		}
+ 
+        //         v2f vert(appdata_base v)
+        //         {
+        //             v2f o;
+		// 			o.pos = UnityObjectToClipPos(v.vertex);
+					
+		// 			o.color = fixed4(1.0, 1.0, 1.0, 1.0);
+		// 			if (checkVisability(o.pos.xyz)){
+		// 				o.pos = 0;
+		// 				o.color = 0;
+		// 			} else {
+						 
+        //             	o.pos.y -= o.pos.w / _ScreenParams.y * 0.5;
+                    	
+		// 			}
+		// 			return o;
+                    
+        //         }
+ 
+        //         fixed4 frag(v2f i) : SV_Target
+        //         {
+        //             return _Color;
+        //         }
+
+				
+
+        //         ENDCG
+        //     }
+
 	}
+
+	
 	//FallBack "Diffuse"
 }
